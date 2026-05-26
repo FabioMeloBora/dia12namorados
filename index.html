@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!--
+    ╔══════════════════════════════════════════════════╗
+    ║        SITE DIA DOS NAMORADOS - README           ║
+    ║                                                  ║
+    ║  Para personalizar, procure os comentários       ║
+    ║  com a tag  👉 EDITE AQUI                        ║
+    ╚══════════════════════════════════════════════════╝
+  -->
+
+  <!-- 👉 EDITE AQUI: Título da aba do navegador -->
+  <title>Para Você Amor </title>
+
+  <!-- Google Fonts: Cormorant (elegante) + DM Sans (moderno) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─────────────────────────────────────────────────
+       VARIÁVEIS GLOBAIS DE COR E TIPOGRAFIA
+       Mude aqui para trocar o tema inteiro do site
+    ───────────────────────────────────────────────── */
+    :root {
+      --cor-fundo:       #0d0a0b;      /* Fundo principal (quase preto quente) */
+      --cor-cartao:      #16100f;      /* Fundo dos cartões e seções */
+      --cor-borda:       #3a2020;      /* Bordas suaves */
+      --cor-destaque:    #c9715a;      /* Laranja-rosé: cor principal de acento */
+      --cor-destaque2:   #e8a598;      /* Rosa claro: acento secundário */
+      --cor-texto:       #f0e6e0;      /* Texto principal (creme) */
+      --cor-texto-suave: #9a7a70;      /* Texto secundário (acinzentado quente) */
+      --fonte-titulo:    'Cormorant Garamond', serif;
+      --fonte-corpo:     'DM Sans', sans-serif;
+      --raio:            16px;
+      --transicao:       0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ─── RESET E BASE ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--cor-fundo);
+      color: var(--cor-texto);
+      font-family: var(--fonte-corpo);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none; /* cursor customizado */
+    }
+
+    /* ─── CURSOR PERSONALIZADO ─── */
+    .cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: var(--cor-destaque);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+    }
+    .cursor-anel {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--cor-destaque);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.3s, height 0.3s, opacity 0.3s;
+      opacity: 0.5;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* ─── BARRA DE NAVEGAÇÃO ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(13,10,11,0.95), transparent);
+      backdrop-filter: blur(0px);
+      transition: backdrop-filter 0.4s;
+    }
+    nav.scrolled { backdrop-filter: blur(12px); background: rgba(13,10,11,0.8); }
+
+    .nav-logo {
+      font-family: var(--fonte-titulo);
+      font-size: 1.5rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--cor-destaque2);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--cor-texto-suave);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color var(--transicao);
+    }
+    .nav-links a:hover { color: var(--cor-destaque2); }
+
+    /* ─── PARTÍCULAS DE CORAÇÃO ─── */
+    #particulas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+
+    /* ─────────────────────────────────────────────────
+       SEÇÃO 1: HERO — A primeira tela que ela vai ver
+    ───────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 24px;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    /* Fundo desfocado com a primeira foto do carrossel */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('fotos/hero.jpg'); /* 👉 EDITE AQUI: foto do fundo do hero */
+      background-size: cover;
+      background-position: center;
+      filter: blur(6px) brightness(0.3);
+      transform: scale(1.08);
+    }
+
+    /* Caso não tenha foto, use este gradiente como fallback */
+    .hero-bg-gradiente {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 60%, #3a1a1a 0%, #0d0a0b 60%),
+                  radial-gradient(ellipse at 80% 20%, #2a1215 0%, transparent 50%);
+    }
+
+    .hero-conteudo {
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 1.2s ease both;
+    }
+
+    /* 👉 EDITE AQUI: data especial exibida no topo do hero */
+    .hero-data {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cor-destaque);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+
+    .hero-titulo {
+      font-family: var(--fonte-titulo);
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--cor-texto);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 1s 0.5s ease both;
+    }
+    .hero-titulo em {
+      font-style: italic;
+      color: var(--cor-destaque2);
+    }
+
+    .hero-subtitulo {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--cor-texto-suave);
+      max-width: 380px;
+      line-height: 1.7;
+      margin: 0 auto 40px;
+      opacity: 0;
+      animation: fadeUp 1s 0.8s ease both;
+    }
+
+    .btn-primario {
+      display: inline-block;
+      padding: 14px 36px;
+      border: 1.5px solid var(--cor-destaque);
+      color: var(--cor-destaque2);
+      font-family: var(--fonte-corpo);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: background var(--transicao), color var(--transicao), transform var(--transicao);
+      opacity: 0;
+      animation: fadeUp 1s 1s ease both;
+    }
+    .btn-primario:hover {
+      background: var(--cor-destaque);
+      color: var(--cor-fundo);
+      transform: translateY(-2px);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 1s 1.4s ease both;
+    }
+    .scroll-hint span {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cor-texto-suave);
+    }
+    .scroll-linha {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--cor-destaque), transparent);
+      animation: pulse-line 2s ease infinite;
+    }
+    @keyframes pulse-line {
+      0%, 100% { opacity: 0.4; transform: scaleY(0.8); }
+      50%       { opacity: 1;   transform: scaleY(1); }
+    }
+
+    /* ─────────────────────────────────────────────────
+       SEÇÃO 2: CARROSSEL — Fotos deslizando
+    ───────────────────────────────────────────────── */
+    #carrossel {
+      position: relative;
+      z-index: 2;
+      padding: 100px 0;
+      overflow: hidden;
+    }
+
+    .secao-label {
+      text-align: center;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cor-destaque);
+      margin-bottom: 14px;
+    }
+    .secao-titulo {
+      text-align: center;
+      font-family: var(--fonte-titulo);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cor-texto);
+      margin-bottom: 56px;
+    }
+
+    /* Container das faixas de foto */
+    .carrossel-faixa {
+      display: flex;
+      gap: 20px;
+      width: max-content;
+      padding: 10px 0;
+    }
+    .carrossel-faixa.direita  { animation: deslizar-dir 40s linear infinite; }
+    .carrossel-faixa.esquerda { animation: deslizar-esq 40s linear infinite; }
+    /* Pausa ao passar o mouse */
+    .carrossel-faixa:hover { animation-play-state: paused; }
+
+    @keyframes deslizar-dir {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes deslizar-esq {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+
+    .carrossel-item {
+      flex-shrink: 0;
+      width: 280px;
+      height: 360px;
+      border-radius: var(--raio);
+      overflow: hidden;
+      position: relative;
+      border: 1px solid var(--cor-borda);
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .carrossel-item:hover {
+      transform: scale(1.04) translateY(-6px);
+      box-shadow: 0 20px 50px rgba(201,113,90,0.25);
+    }
+    .carrossel-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s;
+    }
+    .carrossel-item:hover img { transform: scale(1.08); }
+
+    /* Overlay com legenda ao passar o mouse */
+    .carrossel-item .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,10,11,0.85) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+    .carrossel-item:hover .overlay { opacity: 1; }
+    .overlay-texto {
+      font-family: var(--fonte-titulo);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--cor-texto);
+    }
+
+    /* Gradiente nas bordas para sumir as fotos */
+    .carrossel-mascara {
+      position: relative;
+    }
+    .carrossel-mascara::before,
+    .carrossel-mascara::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 120px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .carrossel-mascara::before {
+      left: 0;
+      background: linear-gradient(to right, var(--cor-fundo), transparent);
+    }
+    .carrossel-mascara::after {
+      right: 0;
+      background: linear-gradient(to left, var(--cor-fundo), transparent);
+    }
+
+    /* ─────────────────────────────────────────────────
+       SEÇÃO 3: HISTÓRIA — Linha do tempo do casal
+    ───────────────────────────────────────────────── */
+    #historia {
+      position: relative;
+      z-index: 2;
+      padding: 100px 24px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .linha-tempo {
+      position: relative;
+      margin-top: 60px;
+    }
+    /* Linha vertical no centro */
+    .linha-tempo::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--cor-borda) 10%, var(--cor-borda) 90%, transparent);
+    }
+
+    .evento {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 0 20px;
+      margin-bottom: 60px;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .evento.visivel { opacity: 1; transform: translateY(0); }
+
+    /* Alterna: par à direita, ímpar à esquerda */
+    .evento:nth-child(odd)  .evento-conteudo { grid-column: 1; text-align: right; }
+    .evento:nth-child(odd)  .evento-ponto    { grid-column: 2; }
+    .evento:nth-child(odd)  .evento-vazio    { grid-column: 3; }
+    .evento:nth-child(even) .evento-vazio    { grid-column: 1; }
+    .evento:nth-child(even) .evento-ponto    { grid-column: 2; }
+    .evento:nth-child(even) .evento-conteudo { grid-column: 3; text-align: left; }
+
+    .evento-ponto {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ponto-circulo {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--cor-destaque);
+      display: flex; align-items: center; justify-content: center;
+      background: var(--cor-fundo);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .evento-data {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cor-destaque);
+      margin-bottom: 8px;
+    }
+    .evento-titulo-item {
+      font-family: var(--fonte-titulo);
+      font-size: 1.4rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--cor-texto);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .evento-descricao {
+      font-size: 0.88rem;
+      color: var(--cor-texto-suave);
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────────────
+       SEÇÃO 4: GALERIA — Grade de fotos
+    ───────────────────────────────────────────────── */
+    #galeria {
+      position: relative;
+      z-index: 2;
+      padding: 100px 24px;
+    }
+
+    .galeria-grade {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      max-width: 1100px;
+      margin: 60px auto 0;
+    }
+
+    /* Algumas fotos ocupam mais espaço para criar ritmo visual */
+    .galeria-item { position: relative; border-radius: var(--raio); overflow: hidden; }
+    .galeria-item.destaque { grid-row: span 2; }
+    .galeria-item.largo    { grid-column: span 2; }
+
+    .galeria-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      min-height: 220px;
+      display: block;
+      transition: transform 0.5s;
+    }
+    .galeria-item:hover img { transform: scale(1.06); }
+
+    /* Overlay ao clicar (lightbox simples) */
+    .galeria-item .overlay-galeria {
+      position: absolute;
+      inset: 0;
+      background: rgba(13,10,11,0.6);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .galeria-item:hover .overlay-galeria { opacity: 1; }
+    .overlay-galeria span {
+      font-size: 1.6rem;
+      color: white;
+    }
+
+    /* LIGHTBOX — abre a foto em tela cheia */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(13,10,11,0.95);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    #lightbox.aberto { display: flex; }
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 8px;
+      animation: fadeUp 0.4s ease;
+    }
+    #lightbox-fechar {
+      position: absolute;
+      top: 24px; right: 32px;
+      font-size: 2rem;
+      color: var(--cor-texto-suave);
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+    #lightbox-fechar:hover { color: var(--cor-destaque2); }
+
+    /* ─────────────────────────────────────────────────
+       SEÇÃO 5: INTERAÇÃO — Ela escolhe um motivo
+    ───────────────────────────────────────────────── */
+    #interacao {
+      position: relative;
+      z-index: 2;
+      padding: 100px 24px;
+      text-align: center;
+    }
+
+    .interacao-intro {
+      font-size: 0.9rem;
+      color: var(--cor-texto-suave);
+      max-width: 400px;
+      margin: 16px auto 48px;
+      line-height: 1.7;
+    }
+
+    .motivos-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      max-width: 700px;
+      margin: 0 auto 56px;
+    }
+
+    /* 👉 EDITE AQUI: mude os textos dos motivos abaixo (no JavaScript) */
+    .motivo-btn {
+      padding: 12px 24px;
+      border: 1.5px solid var(--cor-borda);
+      background: transparent;
+      color: var(--cor-texto-suave);
+      font-family: var(--fonte-corpo);
+      font-size: 0.85rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .motivo-btn:hover {
+      border-color: var(--cor-destaque);
+      color: var(--cor-destaque2);
+      transform: translateY(-2px);
+    }
+    .motivo-btn.selecionado {
+      background: var(--cor-destaque);
+      border-color: var(--cor-destaque);
+      color: var(--cor-fundo);
+      transform: scale(1.05);
+    }
+
+    /* Mensagem que aparece após selecionar */
+    #resposta-interacao {
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .resposta-texto {
+      font-family: var(--fonte-titulo);
+      font-style: italic;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      color: var(--cor-destaque2);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s, transform 0.6s;
+      line-height: 1.3;
+    }
+    .resposta-texto.visivel { opacity: 1; transform: translateY(0); }
+
+    /* ─────────────────────────────────────────────────
+       SEÇÃO 6: MENSAGEM FINAL — Carta de amor
+    ───────────────────────────────────────────────── */
+    #mensagem-final {
+      position: relative;
+      z-index: 2;
+      padding: 100px 24px 140px;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .carta {
+      background: var(--cor-cartao);
+      border: 1px solid var(--cor-borda);
+      border-radius: 24px;
+      padding: 56px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Detalhe decorativo no canto */
+    .carta::before {
+      content: '♥';
+      position: absolute;
+      top: -20px; right: -10px;
+      font-size: 8rem;
+      color: var(--cor-destaque);
+      opacity: 0.05;
+      line-height: 1;
+    }
+
+    .carta-assinatura {
+      margin-top: 32px;
+      font-family: var(--fonte-titulo);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--cor-destaque);
+    }
+
+    /* 👉 EDITE AQUI: texto da carta (está no HTML abaixo) */
+    .carta p {
+      font-size: 1rem;
+      color: var(--cor-texto-suave);
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+    .carta p:last-of-type { margin-bottom: 0; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--cor-borda);
+      font-size: 0.75rem;
+      color: var(--cor-texto-suave);
+      letter-spacing: 0.08em;
+    }
+
+    /* ─── ANIMAÇÕES UTILITÁRIAS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── CONFETTI (chuva de corações ao interagir) ─── */
+    .coracao-confetti {
+      position: fixed;
+      pointer-events: none;
+      z-index: 999;
+      font-size: 1.4rem;
+      animation: cair 2.5s ease forwards;
+    }
+    @keyframes cair {
+      0%   { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+      100% { opacity: 0; transform: translateY(200px) rotate(360deg) scale(0.3); }
+    }
+
+    /* ─── RESPONSIVIDADE MOBILE ─── */
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 0.72rem; }
+
+      /* Linha do tempo vira coluna única no mobile */
+      .linha-tempo::before { left: 20px; }
+      .evento {
+        grid-template-columns: 44px 1fr;
+        gap: 0 14px;
+      }
+      .evento:nth-child(odd)  .evento-conteudo,
+      .evento:nth-child(even) .evento-conteudo { grid-column: 2; text-align: left; }
+      .evento:nth-child(odd)  .evento-ponto,
+      .evento:nth-child(even) .evento-ponto    { grid-column: 1; }
+      .evento-vazio { display: none; }
+
+      .galeria-item.destaque,
+      .galeria-item.largo { grid-column: auto; grid-row: auto; }
+      .carta { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       CURSOR PERSONALIZADO
+  ══════════════════════════════════════════════ -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-anel" id="cursor-anel"></div>
+
+  <!-- ══════════════════════════════════════════════
+       PARTÍCULAS FLUTUANTES (corações no fundo)
+  ══════════════════════════════════════════════ -->
+  <div id="particulas"></div>
+
+  <!-- ══════════════════════════════════════════════
+       LIGHTBOX (visualizar foto em tela cheia)
+  ══════════════════════════════════════════════ -->
+  <div id="lightbox">
+    <button id="lightbox-fechar">✕</button>
+    <img id="lightbox-img" src="" alt="Foto ampliada" />
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       BARRA DE NAVEGAÇÃO
+  ══════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <!-- 👉 EDITE AQUI: nome do casal no logo -->
+    <div class="nav-logo">eu & você</div>
+    <ul class="nav-links">
+      <li><a href="#carrossel">Momentos</a></li>
+      <li><a href="#historia">Nossa História</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#mensagem-final">Carta</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════
+       SEÇÃO 1: HERO
+  ══════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-bg-gradiente"></div>
+
+    <div class="hero-conteudo">
+      <!-- 👉 EDITE AQUI: data especial do casal -->
+      <p class="hero-data">12 de junho de 2025 · Dia dos Namorados</p>
+
+      <!-- 👉 EDITE AQUI: título principal (nome dela) -->
+      <h1 class="hero-titulo">
+        Para<br/><em>NATHÁLIA</em>
+      </h1>
+
+      <!-- 👉 EDITE AQUI: frase de abertura -->
+      <p class="hero-subtitulo">
+        Algumas histórias merecem ser contadas com cuidado — esta é a nossa.
+      </p>
+
+      <a href="#carrossel" class="btn-primario">Explorar nossa história</a>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Deslize</span>
+      <div class="scroll-linha"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SEÇÃO 2: CARROSSEL DE FOTOS
+  ══════════════════════════════════════════════ -->
+  <section id="carrossel">
+    <p class="secao-label">Nossa coleção</p>
+    <h2 class="secao-titulo">Momentos que guardo</h2>
+
+    <!--
+      COMO ADICIONAR FOTOS AO CARROSSEL:
+      1. Coloque suas fotos na pasta /fotos/
+      2. Troque os src="fotos/foto1.jpg" pelos nomes dos seus arquivos
+      3. Mude o data-legenda para uma frase sobre aquele momento
+      4. Cada linha desliza em direção oposta (direita / esquerda)
+      5. As fotos aparecem duplicadas para o loop ser contínuo
+    -->
+
+    <!-- Faixa 1: desliza para a direita -->
+    <div class="carrossel-mascara">
+      <div class="carrossel-faixa direita" id="faixa1">
+
+        <!-- 👉 EDITE AQUI: troque src e data-legenda -->
+        <div class="carrossel-item">
+          <img src="fotos/fotos1.jpg" alt="Momento 1" />
+          <div class="overlay"><span class="overlay-texto">Nosso primeiro encontro</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto2.jpg" alt="Momento 2" />
+          <div class="overlay"><span class="overlay-texto">Aquele dia especial</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto3.jpg" alt="Momento 3" />
+          <div class="overlay"><span class="overlay-texto">Juntos sempre</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto4.jpg" alt="Momento 4" />
+          <div class="overlay"><span class="overlay-texto">Momentos assim</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto5.jpg" alt="Momento 5" />
+          <div class="overlay"><span class="overlay-texto">Nossa aventura</span></div>
+        </div>
+        <!-- Cópias para loop infinito (JS vai fazer isso automaticamente) -->
+
+      </div>
+    </div>
+
+    <!-- Faixa 2: desliza para a esquerda -->
+    <div class="carrossel-mascara" style="margin-top:20px;">
+      <div class="carrossel-faixa esquerda" id="faixa2">
+
+        <!-- 👉 EDITE AQUI: mais fotos para a segunda faixa -->
+        <div class="carrossel-item">
+          <img src="fotos/foto6.jpg" alt="Momento 6" />
+          <div class="overlay"><span class="overlay-texto">Sempre sorrindo</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto7.jpg" alt="Momento 7" />
+          <div class="overlay"><span class="overlay-texto">Minha companheira</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto8.jpg" alt="Momento 8" />
+          <div class="overlay"><span class="overlay-texto">Felicidade real</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto9.jpg" alt="Momento 9" />
+          <div class="overlay"><span class="overlay-texto">Lembranças boas</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto10.jpg" alt="Momento 10" />
+          <div class="overlay"><span class="overlay-texto">Você é demais</span></div>
+        </div>
+
+      </div>
+    </div>
+
+     <div class="carrossel-mascara">
+      <div class="carrossel-faixa direita" id="faixa3">
+
+    <!-- Faixa 3: desliza para a direita -->
+    <div class="carrossel-mascara">
+      <div class="carrossel-faixa direita" id="faixa3">
+
+        <!-- 👉 EDITE AQUI: troque src e data-legenda -->
+        <div class="carrossel-item">
+          <img src="fotos/foto11.jpg" alt="Momento 11" />
+          <div class="overlay"><span class="overlay-texto">Nosso primeiro encontro</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto12.jpg" alt="Momento 12" />
+          <div class="overlay"><span class="overlay-texto">Aquele dia especial</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto13.jpg" alt="Momento 13" />
+          <div class="overlay"><span class="overlay-texto">Juntos sempre</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto14.jpg" alt="Momento 14" />
+          <div class="overlay"><span class="overlay-texto">Momentos assim</span></div>
+        </div>
+        <div class="carrossel-item">
+          <img src="fotos/foto15.jpg" alt="Momento 15" />
+          <div class="overlay"><span class="overlay-texto">Nossa aventura</span></div>
+        </div>
+        <!-- Cópias para loop infinito (JS vai fazer isso automaticamente) -->
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SEÇÃO 3: NOSSA HISTÓRIA (linha do tempo)
+  ══════════════════════════════════════════════ -->
+  <section id="historia">
+    <p class="secao-label">Do começo até aqui</p>
+    <h2 class="secao-titulo">Nossa História</h2>
+
+    <!--
+      COMO EDITAR A LINHA DO TEMPO:
+      - Mude a data em .evento-data
+      - Mude o título em .evento-titulo-item
+      - Mude a descrição em .evento-descricao
+      - Mude o emoji no .ponto-circulo
+      - Adicione ou remova blocos .evento conforme precisar
+    -->
+
+    <div class="linha-tempo">
+
+      <!-- 👉 EDITE AQUI: Evento 1 -->
+      <div class="evento">
+        <div class="evento-conteudo">
+          <p class="evento-data">2019</p>  <!-- ex: Janeiro · 2023 -->
+          <h3 class="evento-titulo-item">O primeiro olhar</h3>
+          <p class="evento-descricao">
+            Mesmo nao de dando bola em 2019, em 2020 não resistiu a mim kkkkk Sempre dando uma de difícil.
+            desde a festa até o churrasco, até que antes da viajem de Aparecia eu consegui!!
+          </p>
+        </div>
+        <div class="evento-ponto"><div class="ponto-circulo">✨</div></div>
+        <div class="evento-vazio"></div>
+      </div>
+
+      <!-- 👉 EDITE AQUI: Evento 2 -->
+      <div class="evento">
+        <div class="evento-vazio"></div>
+        <div class="evento-ponto"><div class="ponto-circulo">☕</div></div>
+        <div class="evento-conteudo">
+          <p class="evento-data">10 - Janeiro - 2020</p>
+          <h3 class="evento-titulo-item">Nosso primeiro date</h3>
+          <p class="evento-descricao">
+            Nosso primeiro encontro em Aparecida do Norte, sendo um dia antes nosso primeiro beijo antes da viagem!
+          </p>
+        </div>
+      </div>
+
+      <!-- 👉 EDITE AQUI: Evento 3 -->
+      <div class="evento">
+        <div class="evento-conteudo">
+          <p class="evento-data">2020</p>
+          <h3 class="evento-titulo-item">Quando percebi que era você</h3>
+          <p class="evento-descricao">
+            No momento em que vi que nossas ideias são parecidas, crescer na vida, construir nossas conquistas!
+          </p>
+        </div>
+        <div class="evento-ponto"><div class="ponto-circulo">💌</div></div>
+        <div class="evento-vazio"></div>
+      </div>
+
+      <!-- 👉 EDITE AQUI: Evento 4 -->
+      <div class="evento">
+        <div class="evento-vazio"></div>
+        <div class="evento-ponto"><div class="ponto-circulo">🌙</div></div>
+        <div class="evento-conteudo">
+          <p class="evento-data">21/02/2020 </p>
+          <h3 class="evento-titulo-item">Ficamos juntos!</h3>
+          <p class="evento-descricao">
+            O dia do pedido de Namoro, melhor presente de aniversário que eu ganhei!
+          </p>
+        </div>
+      </div>
+
+      <!-- 👉 EDITE AQUI: Evento 5 — adicione quantos quiser! -->
+      <div class="evento">
+        <div class="evento-conteudo">
+          <p class="evento-data">Hoje</p>
+          <h3 class="evento-titulo-item">E a história continua…</h3>
+          <p class="evento-descricao">
+            O melhor ainda está por vir. Feliz Dia dos Namorados.
+          </p>
+        </div>
+        <div class="evento-ponto"><div class="ponto-circulo">♥</div></div>
+        <div class="evento-vazio"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SEÇÃO 4: GALERIA DE FOTOS
+  ══════════════════════════════════════════════ -->
+  <section id="galeria">
+    <p class="secao-label">Álbum do casal</p>
+    <h2 class="secao-titulo">Galeria</h2>
+
+    <!--
+      COMO EDITAR A GALERIA:
+      - Troque o src="fotos/galeria-X.jpg" pelos nomes dos seus arquivos
+      - A classe .destaque faz a foto ocupar 2 linhas (mais alta)
+      - A classe .largo faz a foto ocupar 2 colunas (mais larga)
+      - Misture elas para criar um layout dinâmico
+    -->
+
+    <div class="galeria-grade">
+      <!-- 👉 EDITE AQUI: fotos da galeria -->
+      <div class="galeria-item destaque">
+        <img src="fotos/galeria-1.jpg" alt="Foto 1" />
+        <div class="overlay-galeria" onclick="abrirLightbox(this)"><span>⊕</span></div>
+      </div>
+      <div class="galeria-item">
+        <img src="fotos/galeria-2.jpg" alt="Foto 2" />
+        <div class="overlay-galeria" onclick="abrirLightbox(this)"><span>⊕</span></div>
+      </div>
+      <div class="galeria-item">
+        <img src="fotos/galeria-3.jpg" alt="Foto 3" />
+        <div class="overlay-galeria" onclick="abrirLightbox(this)"><span>⊕</span></div>
+      </div>
+      <div class="galeria-item largo">
+        <img src="fotos/galeria-4.jpg" alt="Foto 4" />
+        <div class="overlay-galeria" onclick="abrirLightbox(this)"><span>⊕</span></div>
+      </div>
+      <div class="galeria-item">
+        <img src="fotos/galeria-5.jpg" alt="Foto 5" />
+        <div class="overlay-galeria" onclick="abrirLightbox(this)"><span>⊕</span></div>
+      </div>
+      <div class="galeria-item">
+        <img src="fotos/galeria-6.jpg" alt="Foto 6" />
+        <div class="overlay-galeria" onclick="abrirLightbox(this)"><span>⊕</span></div>
+      </div>
+      <div class="galeria-item destaque">
+        <img src="fotos/galeria-7.jpg" alt="Foto 7" />
+        <div class="overlay-galeria" onclick="abrirLightbox(this)"><span>⊕</span></div>
+      </div>
+      <div class="galeria-item">
+        <img src="fotos/galeria-8.jpg" alt="Foto 8" />
+        <div class="overlay-galeria" onclick="abrirLightbox(this)"><span>⊕</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SEÇÃO 5: INTERAÇÃO — Ela escolhe um motivo
+  ══════════════════════════════════════════════ -->
+  <section id="interacao">
+    <p class="secao-label">Para você responder</p>
+    <h2 class="secao-titulo">O que te faz sorrir?</h2>
+    <p class="interacao-intro">
+      Escolha uma das opções abaixo — prometo que cada uma tem uma resposta especial esperando por você.
+    </p>
+
+    <!--
+      👉 EDITE AQUI: mude os textos dos botões e as respostas.
+      As respostas ficam no JavaScript, procure a variável "respostas" abaixo.
+    -->
+    <div class="motivos-grid" id="motivos-grid">
+      <button class="motivo-btn" data-id="0">Seu jeito de rir</button>
+      <button class="motivo-btn" data-id="1">Sua companhia</button>
+      <button class="motivo-btn" data-id="2">Como você me olha</button>
+      <button class="motivo-btn" data-id="3">Suas histórias</button>
+      <button class="motivo-btn" data-id="4">Seu abraço</button>
+      <button class="motivo-btn" data-id="5">Seu jeito de ser</button>
+      <button class="motivo-btn" data-id="6">Nossa sintonia</button>
+      <button class="motivo-btn" data-id="7">Tudo</button>
+    </div>
+
+    <div id="resposta-interacao">
+      <p class="resposta-texto" id="texto-resposta"></p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SEÇÃO 6: CARTA / MENSAGEM FINAL
+  ══════════════════════════════════════════════ -->
+  <section id="mensagem-final">
+    <p class="secao-label">Direto do coração</p>
+    <h2 class="secao-titulo" style="margin-bottom:40px;">Uma carta para você</h2>
+
+    <div class="carta">
+      <!--
+        👉 EDITE AQUI: escreva sua carta abaixo.
+        Pode ter quantos parágrafos quiser. Seja você mesmo!
+      -->
+      <p>
+       Gostária de te agradecer imensamente por tudo que você fez e faz na minha vida
+       todos os conselhos, carinhos, atenção, puxadas de orelhas(mesmo que não precise). 
+       Te agradeço por tudo!!
+      </p>
+      <p>
+        Obrigado por ser tão carinhosa comigo, nunca me deixou na mão para nada,
+        nunca vou esquecer de nada, você sempre me faz feliz!
+      </p>
+      <p>
+        Agora vamos começar nossa casa, que vai ser nosso lar, com muita alegria nela, várias historias 
+        para a gente escrever em nossas vidas!
+      </p>
+      <p>
+        TE AMO PARA SEMPRE MEU AMOR!!
+        ISSO É APENAS UMA LEMBRANÇA PARA VOCÊ, ESPERO QUE GOSTE!
+      </p>
+
+      <!-- 👉 EDITE AQUI: sua assinatura -->
+      <p class="carta-assinatura">Com todo meu amor, <em>Fábio Melo</em> ♥</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════ -->
+  <footer>
+    <!-- 👉 EDITE AQUI: mensagem do rodapé -->
+    Feito com ♥ especialmente para você · Dia dos Namorados 2026
+  </footer>
+
+  <!-- ══════════════════════════════════════════════
+       JAVASCRIPT — Toda a interatividade do site
+  ══════════════════════════════════════════════ -->
+  <script>
+    // ─────────────────────────────────────────────
+    // 1. CURSOR PERSONALIZADO
+    // Move o cursor customizado (bolinha + anel)
+    // ─────────────────────────────────────────────
+    const cursor     = document.getElementById('cursor');
+    const cursorAnel = document.getElementById('cursor-anel');
+
+    document.addEventListener('mousemove', e => {
+      cursor.style.left     = e.clientX + 'px';
+      cursor.style.top      = e.clientY + 'px';
+      cursorAnel.style.left = e.clientX + 'px';
+      cursorAnel.style.top  = e.clientY + 'px';
+    });
+
+    // Aumenta o cursor ao passar em botões/links
+    document.querySelectorAll('a, button, .galeria-item, .carrossel-item').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width  = cursor.style.height  = '20px';
+        cursorAnel.style.width  = cursorAnel.style.height = '56px';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width  = cursor.style.height  = '12px';
+        cursorAnel.style.width  = cursorAnel.style.height = '36px';
+      });
+    });
+
+    // ─────────────────────────────────────────────
+    // 2. BARRA DE NAVEGAÇÃO — fica opaca ao rolar
+    // ─────────────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ─────────────────────────────────────────────
+    // 3. PARTÍCULAS DE CORAÇÃO flutuando no fundo
+    // ─────────────────────────────────────────────
+    function criarParticula() {
+      const p = document.createElement('div');
+      p.textContent = ['♥', '❤', '✦', '·'][Math.floor(Math.random() * 4)];
+      p.style.cssText = `
+        position: absolute;
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        font-size: ${Math.random() * 10 + 6}px;
+        color: rgba(201, 113, 90, ${Math.random() * 0.15 + 0.03});
+        animation: flutuar ${Math.random() * 8 + 6}s ease-in-out infinite alternate;
+        animation-delay: ${Math.random() * 5}s;
+      `;
+      document.getElementById('particulas').appendChild(p);
+    }
+    // Cria 30 partículas
+    for (let i = 0; i < 30; i++) criarParticula();
+
+    // Animação de flutuar (adicionada no CSS via JS)
+    const estiloParticula = document.createElement('style');
+    estiloParticula.textContent = `
+      @keyframes flutuar {
+        from { transform: translateY(0) rotate(0deg); }
+        to   { transform: translateY(-30px) rotate(15deg); }
+      }
+    `;
+    document.head.appendChild(estiloParticula);
+
+    // ─────────────────────────────────────────────
+    // 4. CARROSSEL — duplica os itens para loop infinito
+    // ─────────────────────────────────────────────
+    ['faixa1', 'faixa2', 'faixa3'].forEach(id => {
+      const faixa = document.getElementById(id);
+      if (!faixa) return;
+      // Clona todos os filhos e adiciona ao final
+      const itens = Array.from(faixa.children);
+      itens.forEach(item => faixa.appendChild(item.cloneNode(true)));
+    });
+
+    // ─────────────────────────────────────────────
+    // 5. ANIMAÇÃO AO ROLAR (Intersection Observer)
+    // Faz elementos aparecerem ao entrar na tela
+    // ─────────────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visivel');
+          observer.unobserve(entry.target); // anima só uma vez
+        }
+      });
+    }, { threshold: 0.15 });
+
+    // Observa todos os eventos da linha do tempo
+    document.querySelectorAll('.evento').forEach(el => observer.observe(el));
+
+    // ─────────────────────────────────────────────
+    // 6. GALERIA — Lightbox (abre foto em tela cheia)
+    // ─────────────────────────────────────────────
+    function abrirLightbox(overlayEl) {
+      const img = overlayEl.previousElementSibling; // imagem antes do overlay
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('aberto');
+      document.body.style.overflow = 'hidden'; // trava o scroll
+    }
+
+    document.getElementById('lightbox-fechar').addEventListener('click', () => {
+      document.getElementById('lightbox').classList.remove('aberto');
+      document.body.style.overflow = '';
+    });
+
+    // Clica fora da imagem também fecha
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('aberto');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // ─────────────────────────────────────────────
+    // 7. INTERAÇÃO — Botões de motivo + respostas
+    // ─────────────────────────────────────────────
+
+    // 👉 EDITE AQUI: respostas para cada botão (mesma ordem dos botões no HTML)
+    const respostas = [
+      "Esse riso ilumina qualquer ambiente — e principalmente o meu mundo.",
+      "Não preciso de nada mais do que ter você do meu lado.",
+      "Quando você me olha assim, eu entendo tudo o que as músicas tentam dizer.",
+      "Eu poderia te escutar por horas e nunca enjoar.",
+      "Seu abraço é o lugar mais seguro que eu já encontrei.",
+      "Você é tão única que as palavras não chegam nem perto.",
+      "Parece que fomos feitos para nos entender assim.",
+      "Tudo. Absolutamente tudo em você me faz feliz. ♥"
+    ];
+
+    // Efeito de chuva de corações (confetti)
+    function lancarCoracoes(x, y) {
+      for (let i = 0; i < 10; i++) {
+        const h = document.createElement('div');
+        h.className = 'coracao-confetti';
+        h.textContent = '♥';
+        h.style.left = (x + (Math.random() - 0.5) * 100) + 'px';
+        h.style.top  = (y + (Math.random() - 0.5) * 60) + 'px';
+        h.style.color = `hsl(${Math.random() * 30 + 340}, 70%, 65%)`;
+        h.style.animationDelay = Math.random() * 0.4 + 's';
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 2800);
+      }
+    }
+
+    document.querySelectorAll('.motivo-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        // Remove seleção anterior
+        document.querySelectorAll('.motivo-btn').forEach(b => b.classList.remove('selecionado'));
+        this.classList.add('selecionado');
+
+        // Mostra a resposta
+        const id      = parseInt(this.dataset.id);
+        const textoEl = document.getElementById('texto-resposta');
+        textoEl.classList.remove('visivel');
+
+        setTimeout(() => {
+          textoEl.textContent = respostas[id];
+          textoEl.classList.add('visivel');
+        }, 200);
+
+        // Lança corações na posição do clique
+        const rect = this.getBoundingClientRect();
+        lancarCoracoes(rect.left + rect.width / 2, rect.top + window.scrollY);
+      });
+    });
+
+    // ─────────────────────────────────────────────
+    // 8. EFEITO PARALLAX sutil no hero
+    // A imagem de fundo se move levemente ao rolar
+    // ─────────────────────────────────────────────
+    const heroBg = document.querySelector('.hero-bg');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < window.innerHeight && heroBg) {
+        heroBg.style.transform = `scale(1.08) translateY(${y * 0.15}px)`;
+      }
+    }, { passive: true });
+
+  </script>
+</body>
+</html>
